@@ -1,0 +1,22 @@
+{
+  "name": "philosopher-in-meditation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luzeduardo/philosopher-in-meditation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luzeduardo/philosopher-in-meditation/issues"
+  },
+  "homepage": "https://github.com/luzeduardo/philosopher-in-meditation#readme",
+  "dependencies": {
+    "bootbot": "^1.0.7"
+  }
+}

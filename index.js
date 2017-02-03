@@ -19,6 +19,7 @@ var gKey = process.env.GCLOUD_KEY;
 bot.on('message', (payload, chat) => {
   const text = payload.message.text;
   chat.say(`Echo: ${text}`);
+  var textt = '';
 
   try {
     let options = {

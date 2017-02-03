@@ -127,7 +127,7 @@ const getTranslate = (convo) => {
     } catch(err) {
         console.log(err);
         console.log('erro');
-    });
+    };
 };
 
 const verificaTentativas = (convo) => {

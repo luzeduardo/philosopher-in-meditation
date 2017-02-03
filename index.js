@@ -33,7 +33,7 @@ bot.on('message', (payload, chat) => {
         }
     };
     // rp(options).then(data => chat.say(`Echo: ${data.translations.translatedText}`) );
-    rp(options).then(data => console.log(data.data.translations));
+    rp(options).then(data => console.log(data.translations));
 
   } catch(err) {
       console.log(err);

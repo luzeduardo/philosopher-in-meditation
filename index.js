@@ -9,11 +9,6 @@ const bot = new BootBot({
   appSecret: process.env.FB_APP_SECRET
 });
 
-bot.on('message', (payload, chat) => {
-  const text = payload.message.text;
-  chat.say(`Echo: ${text}`);
-});
-
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {
         convo.say(`${user.first_name}, tivemos dificuldades para encontrar um filme. Tente novamente por favor.`);

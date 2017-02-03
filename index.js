@@ -22,30 +22,11 @@ bot.on('message', (payload, chat) => {
   console.log(text);
 
   try {
-    let options = {
-        method: 'GET',
-        uri: 'https://www.googleapis.com/language/translate/v2',
-        qs: {
-            q: text,
-            target:'en',
-            source:'pt',
-            key:gKey
-        }
-    };
-    rp(options).then(function(data) {
-      let json = JSON.parse(data);
-      console.log(json);
-      let textt = json.data.translations[0].translatedText;
-      txtmsg = textt;
-      chat.say(`${textt}`);
-    });
-
-    try {
       let options = {
-          method: 'POST',
-          uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
+          method: 'GET',
+          uri: 'https://www.googleapis.com/language/translate/v2',
           qs: {
-              q: encodeURI(txtmsg),
+              q: text,
               target:'en',
               source:'pt',
               key:gKey
@@ -55,15 +36,37 @@ bot.on('message', (payload, chat) => {
         let json = JSON.parse(data);
         console.log(json);
         let textt = json.data.translations[0].translatedText;
+        txtmsg = textt;
         chat.say(`${textt}`);
       });
+
+    try {
+        let options = {
+            method: 'POST',
+            uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
+            qs: {
+                q: encodeURI(txtmsg),
+                target:'en',
+                source:'pt',
+                key:gKey
+            }
+        };
+        rp(options).then(function(data) {
+          let json = JSON.parse(data);
+          console.log(json);
+          let textt = json.data.translations[0].translatedText;
+          chat.say(`${textt}`);
+        });
 
     // https://language.googleapis.com/v1beta1/documents:analyzeSentiment
       } catch(err) {
           console.log(err);
           console.log('erro');
       }
-    });
+  } catch(err) {
+      console.log(err);
+      console.log('erro');
+  });
 
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {

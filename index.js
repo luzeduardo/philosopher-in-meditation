@@ -16,22 +16,26 @@ var gProjectId = process.env.GCLOUD_PROJECT;
 var gKey = process.env.GCLOUD_KEY;
 
 
-try {
-  let options = {
-      method: 'GET',
-      uri: 'https://www.googleapis.com/language/translate/v2',
-      qs: {
-          q: encodeURI('me sinto feliz'),
-          target:'en',
-          source:'pt',
-          key:gKey
-      }
-  };
-  rp(options).then(data => console.log(data));
-} catch(err) {
-    console.log(err);
-    console.log('erro');
-}
+bot.on('message', (payload, chat) => {
+  const text = payload.message.text;
+  try {
+    let options = {
+        method: 'GET',
+        uri: 'https://www.googleapis.com/language/translate/v2',
+        qs: {
+            q: encodeURI(text),
+            target:'en',
+            source:'pt',
+            key:gKey
+        }
+    };
+    textt = rp(options).then(data => console.log(data));
+  } catch(err) {
+      console.log(err);
+      console.log('erro');
+  }
+  chat.say(`Echo: ${textt}`);
+});
 
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {
@@ -78,7 +82,7 @@ const getTranslate = (convo) => {
             method: 'GET',
             uri: 'https://www.googleapis.com/language/translate/v2',
             qs: {
-                q: encodeURI('me sinto feliz'),
+                q: encodeURI(message),
                 target:'en',
                 source:'pt',
                 key:gKey

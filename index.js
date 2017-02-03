@@ -40,30 +40,30 @@ bot.on('message', (payload, chat) => {
       chat.say(`${textt}`);
     });
 
-    // try {
-    //   let options = {
-    //       method: 'POST',
-    //       uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
-    //       qs: {
-    //           q: encodeURI(txtmsg),
-    //           target:'en',
-    //           source:'pt',
-    //           key:gKey
-    //       }
-    //   };
-    //   rp(options).then(function(data) {
-    //     let json = JSON.parse(data);
-    //     console.log(json);
-    //     let textt = json.data.translations[0].translatedText;
-    //     chat.say(`${textt}`);
-    //   });
-    //
-    // // https://language.googleapis.com/v1beta1/documents:analyzeSentiment
-    //   } catch(err) {
-    //       console.log(err);
-    //       console.log('erro');
-    //   }
-    // });
+    try {
+      let options = {
+          method: 'POST',
+          uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
+          qs: {
+              q: encodeURI(txtmsg),
+              target:'en',
+              source:'pt',
+              key:gKey
+          }
+      };
+      rp(options).then(function(data) {
+        let json = JSON.parse(data);
+        console.log(json);
+        let textt = json.data.translations[0].translatedText;
+        chat.say(`${textt}`);
+      });
+
+    // https://language.googleapis.com/v1beta1/documents:analyzeSentiment
+      } catch(err) {
+          console.log(err);
+          console.log('erro');
+      }
+    });
 
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {
@@ -124,7 +124,6 @@ const getTranslate = (convo) => {
     } catch(err) {
         console.log(err);
         console.log('erro');
-    }
     });
 };
 

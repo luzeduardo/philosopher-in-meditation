@@ -33,11 +33,11 @@ bot.on('message', (payload, chat) => {
         }
     };
     textt = rp(options).then(data => console.log(data));
+    chat.say(`Echo: ${textt.data.translations.translatedText}`);
   } catch(err) {
       console.log(err);
       console.log('erro');
   }
-  chat.say(`Echo: ${textt}`);
 });
 
 const erroGenerico = convo =>

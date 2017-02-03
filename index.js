@@ -11,11 +11,19 @@ const bot = new BootBot({
 
 var gProjectId = process.env.GCLOUD_PROJECT;
 var gKey = process.env.GCLOUD_KEY;
-const gcloud = require('google-cloud')({
-  projectId: gProjectId,
+
+var translate = require('@google-cloud/translate');
+var translateClient = translate({
+  projectId: process.env.GCLOUD_PROJECT,
   key: gKey
 });
-const translateClient = gcloud.translate;
+translateClient.translate('me sinto feliz', 'en', function(err, translation) {
+  if (!err) {
+    console.log(translation);
+  } else {
+    console.log(err);
+  }
+});
 
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {

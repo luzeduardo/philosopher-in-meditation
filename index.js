@@ -32,9 +32,9 @@ bot.on('message', (payload, chat) => {
             key:gKey
         }
     };
-    textt = rp(options).then(data => data);
+    textt = rp(options).then(data => return data);
     console.log(textt);
-    chat.say(`Echo: ${textt.data.translations.translatedText}`);
+    chat.say(`Echo: ${textt.data}`);
   } catch(err) {
       console.log(err);
       console.log('erro');

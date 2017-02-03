@@ -7,6 +7,10 @@ const BootBot = require('bootbot');
 const REPLY_SIM_NAO = [{title: 'Sim', payload: 'INICIO_SIM'},
   {title: 'Não', payload: 'INICIO_NAO'}];
 
+const REPLY_SIM_NAO_MELHORADA = [{title: 'Sim', payload: 'INICIO_SIM_MELHORADA'},
+  {title: 'Não', payload: 'INICIO_NAO_MELHORADA'}];
+
+
 const bot = new BootBot({
   accessToken: process.env.FB_ACCESS_TOKEN,
   verifyToken: process.env.FB_VERIFY_TOKEN,
@@ -39,18 +43,37 @@ bot.on('message', (payload, chat) => {
         txtmsg = textt;
         var r1 = sentiment(textt);
         if(r1.score < 0){
-            chat.say(`Você está num dia um pocuo negativo, certo?`);
+            chat.say(`Você está num dia um pouco negativo, certo?`);
+            chat.getUserProfile().then((user) => {
+                chat.say({
+                    text: `Quer dar uma melhorada, ${user.first_name}?`,
+                    quickReplies: REPLY_SIM_NAO_MELHORADA
+                });
+            });
         } else if(r1.score > 0){
             chat.say(`Você está num dia positivo, certo?`);
         } else {
           chat.say(`Você está num dia normal, certo?`);
         }
-        // chat.say(`${textt}`);
       });
   } catch(err) {
       console.log(err);
       console.log('erro');
   };
+});
+
+bot.on('quick_reply:INICIO_SIM_MELHORADA', (payload, chat) => {
+    chat.getUserProfile().then((user) => {
+        chat.say(`Vou te indicar uns filmes maneiros ;)`);
+        //TODO get movies
+    });
+});
+
+bot.on('quick_reply:INICIO_NAO_MELHORADA', (payload, chat) => {
+  chat.getUserProfile().then((user) => {
+      chat.say(`Vou te indicar uns filmes mesmo assim, ok?`);
+      //TODO get movies
+  });
 });
 
 const erroGenerico = convo =>

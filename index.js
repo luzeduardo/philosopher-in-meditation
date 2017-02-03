@@ -14,13 +14,13 @@ bot.on('message', (payload, chat) => {
   chat.say(`Echo: ${text}`);
 });
 
-export const erroGenerico = convo =>
+const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {
         convo.say(`${user.first_name}, tivemos dificuldades para encontrar um filme. Tente novamente por favor.`);
         convo.end();
     });
 
-export const askMovie = (convo) => {
+const askMovie = (convo) => {
     convo.getUserProfile().then(user => console.log(user.first_name + ' askMovie'));
     convo.ask('Qual frase te descreve melhor no momento?', (payload) => {
         if(typeof payload.message === 'undefined'){

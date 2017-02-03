@@ -182,6 +182,4 @@ bot.setPersistentMenu([
     }
 ]);
 
-setGetStartedButton
-
 bot.start(process.env.PORT);

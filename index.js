@@ -34,7 +34,7 @@ bot.on('message', (payload, chat) => {
     };
     // rp(options).then(data => chat.say(`Echo: ${data.translations.translatedText}`) );
     rp(options).then(function(data) {
-      json = JSON.parse(data);
+      let json = JSON.parse(data);
       console.log(json);
       console.log(json.data.translations[0].translatedTex);
     });

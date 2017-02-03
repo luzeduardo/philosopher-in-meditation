@@ -57,7 +57,7 @@ const askMovie = (convo) => {
         }
 
         let messageText = payload.message.text;
-        if(typeof messageText == 'string' && (messageText.length >= 10)){
+        if(typeof messageText == 'string' && (messageText.length >= 2)){
             convo.set('contextMessage', messageText);
 
             try {

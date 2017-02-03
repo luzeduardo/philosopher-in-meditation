@@ -18,6 +18,7 @@ var gKey = process.env.GCLOUD_KEY;
 
 bot.on('message', (payload, chat) => {
   const text = payload.message.text;
+  var txtmsg = '';
 
   try {
     let options = {
@@ -32,28 +33,28 @@ bot.on('message', (payload, chat) => {
     };
     rp(options).then(function(data) {
       let json = JSON.parse(data);
-      console.log(json);
       let textt = json.data.translations[0].translatedText;
+      txtmsg = textt;
       chat.say(`${textt}`);
     });
-    //
-    // try {
-    //   let options = {
-    //       method: 'POST',
-    //       uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
-    //       qs: {
-    //           q: encodeURI(text),
-    //           target:'en',
-    //           source:'pt',
-    //           key:gKey
-    //       }
-    //   };
-    //   rp(options).then(function(data) {
-    //     let json = JSON.parse(data);
-    //     let textt = json.data.translations[0].translatedText;
-    //     chat.say(`${textt}`);
-    //   });
-    //
+
+    try {
+      let options = {
+          method: 'POST',
+          uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
+          qs: {
+              q: encodeURI(txtmsg),
+              target:'en',
+              source:'pt',
+              key:gKey
+          }
+      };
+      rp(options).then(function(data) {
+        let json = JSON.parse(data);
+        let textt = json.data.translations[0].translatedText;
+        chat.say(`${textt}`);
+      });
+
     // https://language.googleapis.com/v1beta1/documents:analyzeSentiment
 
 

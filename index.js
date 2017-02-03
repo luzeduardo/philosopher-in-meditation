@@ -9,6 +9,14 @@ const bot = new BootBot({
   appSecret: process.env.FB_APP_SECRET
 });
 
+var gProjectId = process.env.GCLOUD_PROJECT;
+var gKey = process.env.GCLOUD_KEY;
+const gcloud = require('google-cloud')({
+  projectId: gProjectId,
+  key: gKey
+});
+const translateClient = gcloud.translate;
+
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {
         convo.say(`${user.first_name}, tivemos dificuldades para encontrar um filme. Tente novamente por favor.`);
@@ -22,21 +30,72 @@ const askMovie = (convo) => {
             convo.end();
             chat.getUserProfile().then((user) => {
                 chat.say({
-                    text: `Olá, ${user.first_name}! Escolha umas das frases a seguir que eu irei te indicar um bom filme, ok?`,
+                    text: `Olá, ${user.first_name}! tudo bem? Já te indicou um filme, ok?`,
                     quickReplies: REPLY_SIM_NAO
                 });
             });
         }
 
         let messageText = payload.message.text;
-        convo.sendTypingIndicator(1000);
+        if(typeof messageText == 'string' && (messageText.length >= 10)){
+            convo.set('contextMessage', messageText);
+
+            try {
+                convo.sendTypingIndicator(1000)
+                  .then( () => getTranslate(convo))
+                  .then( () => getSentiment(convo))
+                  .then( () => getMovies(convo));
+            } catch(err) {
+                return erroGenerico(convo);
+            }
+        } else {
+            convo.sendTypingIndicator(1000).then(() => verificaTentativas(convo));
+        }
     });
+};
+
+const getTranslate = (convo) => {
+    let message = convo.get('contextMessage');
+    try {
+      translateClient.translate(message, 'en', function(err, translation) {
+        if (!err) {
+          console.log(translation);
+          return translation
+        } else {
+          return erroGenerico(convo);
+        }
+      });
+    } catch(err) {
+        return erroGenerico(convo);
+    }
+};
+
+const verificaTentativas = (convo) => {
+    convo.getUserProfile().then(user => console.log(user.first_name + ' verificaTentativas'));
+    let tentativasEntrada = convo.get('tentativa');
+    if(typeof tentativasEntrada === 'undefined' || tentativasEntrada == null || !tentativasEntrada){
+        tentativasEntrada = 0;
+    }
+    tentativasEntrada += 1;
+    convo.set('tentativa', tentativasEntrada);
+
+    switch (tentativasEntrada) {
+    case 1:
+        convo.say('Acho que você escrever mais algumas palavras, certo? ;)');
+        break;
+    case 2:
+        convo.say('Infelizmente não entender como você está se sentindo no momento, desculpe! Até a pŕoxima ;)');
+        return convo.end();
+    }
+    if (tentativasEntrada < 2 ){
+        convo.sendTypingIndicator(1000).then(() => askMovie(convo));
+    }
 };
 
 bot.on('postback:PAYLOAD_NEW_MOVIE', (payload, chat) => {
   chat.getUserProfile().then((user) => {
       chat.say({
-          text: `Olá, ${user.first_name}! Escolha umas das frases a seguir que eu irei te indicar um bom filme, ok?`,
+          text: `Olá, ${user.first_name}! tudo bem? Já te indicou um filme, ok?`,
           quickReplies: REPLY_SIM_NAO
       });
   });

@@ -20,7 +20,8 @@
     "bootbot": "^1.0.7",
     "dotenv": "^4.0.0",
     "google-cloud": "^0.46.1",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1"
   },
   "devDependencies": {
     "lodash": "^4.17.4",

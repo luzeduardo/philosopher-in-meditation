@@ -42,9 +42,9 @@ const askMovie = (convo) => {
 
             try {
                 convo.sendTypingIndicator(1000)
-                  .then( () => getTranslate(convo))
-                  .then( () => getSentiment(convo))
-                  .then( () => getMovies(convo));
+                  .then( () => getTranslate(convo));
+                  // .then( () => getSentiment(convo))
+                  // .then( () => getMovies(convo));
             } catch(err) {
                 return erroGenerico(convo);
             }
@@ -81,7 +81,7 @@ const verificaTentativas = (convo) => {
 
     switch (tentativasEntrada) {
     case 1:
-        convo.say('Acho que você escrever mais algumas palavras, certo? ;)');
+        convo.say('Acho que você poderia escrever mais algumas palavras, certo? ;)');
         break;
     case 2:
         convo.say('Infelizmente não entender como você está se sentindo no momento, desculpe! Até a pŕoxima ;)');

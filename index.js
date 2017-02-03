@@ -25,7 +25,7 @@ bot.on('message', (payload, chat) => {
         method: 'GET',
         uri: 'https://www.googleapis.com/language/translate/v2',
         qs: {
-            q: encodeURI(text),
+            q: text,
             target:'en',
             source:'pt',
             key:gKey

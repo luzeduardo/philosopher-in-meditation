@@ -1,4 +1,5 @@
 'use strict';
+import rp from 'request-promise';
 const BootBot = require('bootbot');
 const REPLY_SIM_NAO = [{title: 'Sim', payload: 'INICIO_SIM'},
   {title: 'Não', payload: 'INICIO_NAO'}];
@@ -12,18 +13,16 @@ const bot = new BootBot({
 var gProjectId = process.env.GCLOUD_PROJECT;
 var gKey = process.env.GCLOUD_KEY;
 
-var translate = require('@google-cloud/translate');
-var translateClient = translate({
-  projectId: process.env.GCLOUD_PROJECT,
-  key: gKey
-});
-translateClient.translate('me sinto feliz', 'en', function(err, translation) {
-  if (!err) {
-    console.log(translation);
-  } else {
-    console.log(err);
-  }
-});
+let options = {
+    method: 'GET',
+    uri: 'https://www.googleapis.com/language/translate/v2',
+    qs: {
+        q: encodeURI('me sinto feliz'),
+        target='en',
+        key=gKey
+    }
+};
+rp(options).then(data => console.log(data));
 
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {

@@ -22,7 +22,7 @@ bot.on('message', (payload, chat) => {
 
   try {
     let options = {
-        method: 'GET',
+        method: 'POST',
         uri: 'https://www.googleapis.com/language/translate/v2',
         qs: {
             q: encodeURI(text),
@@ -33,9 +33,30 @@ bot.on('message', (payload, chat) => {
     };
     rp(options).then(function(data) {
       let json = JSON.parse(data);
-      let message = json.data.translations[0].translatedText;
-      chat.say(`${message}`);
+      let textt = json.data.translations[0].translatedText;
+      chat.say(`${textt}`);
     });
+    //
+    // try {
+    //   let options = {
+    //       method: 'POST',
+    //       uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
+    //       qs: {
+    //           q: encodeURI(text),
+    //           target:'en',
+    //           source:'pt',
+    //           key:gKey
+    //       }
+    //   };
+    //   rp(options).then(function(data) {
+    //     let json = JSON.parse(data);
+    //     let textt = json.data.translations[0].translatedText;
+    //     chat.say(`${textt}`);
+    //   });
+    //
+    // https://language.googleapis.com/v1beta1/documents:analyzeSentiment
+
+
 
   } catch(err) {
       console.log(err);

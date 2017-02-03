@@ -2,6 +2,7 @@
 require('dotenv').config({ silent: process.env.NODE_ENV !== 'development' })
 
 var rp = require('request-promise');
+var sentiment = require('sentiment');
 const BootBot = require('bootbot');
 const REPLY_SIM_NAO = [{title: 'Sim', payload: 'INICIO_SIM'},
   {title: 'Não', payload: 'INICIO_NAO'}];
@@ -37,32 +38,10 @@ bot.on('message', (payload, chat) => {
         console.log(json);
         let textt = json.data.translations[0].translatedText;
         txtmsg = textt;
+        var r1 = sentiment(textt);
+        console.log(r1);
         chat.say(`${textt}`);
       });
-
-    try {
-        let options = {
-            method: 'POST',
-            uri:'https://language.googleapis.com/v1beta1/documents:analyzeSentiment',
-            qs: {
-                q: encodeURI(txtmsg),
-                target:'en',
-                source:'pt',
-                key:gKey
-            }
-        };
-        rp(options).then(function(data) {
-          let json = JSON.parse(data);
-          console.log(json);
-          let textt = json.data.translations[0].translatedText;
-          chat.say(`${textt}`);
-        });
-
-    // https://language.googleapis.com/v1beta1/documents:analyzeSentiment
-      } catch(err) {
-          console.log(err);
-          console.log('erro');
-      }
   } catch(err) {
       console.log(err);
       console.log('erro');

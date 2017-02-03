@@ -23,6 +23,7 @@ try {
       qs: {
           q: encodeURI('me sinto feliz'),
           target:'en',
+          source:'pt',
           key:gKey
       }
   };
@@ -79,6 +80,7 @@ const getTranslate = (convo) => {
             qs: {
                 q: encodeURI('me sinto feliz'),
                 target:'en',
+                source:'pt',
                 key:gKey
             }
         };

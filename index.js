@@ -18,11 +18,10 @@ var gKey = process.env.GCLOUD_KEY;
 
 bot.on('message', (payload, chat) => {
   const text = payload.message.text;
-  var textt = '';
 
   try {
     let options = {
-        method: 'POST',
+        method: 'GET',
         uri: 'https://www.googleapis.com/language/translate/v2',
         qs: {
             q: encodeURI(text),
@@ -33,7 +32,7 @@ bot.on('message', (payload, chat) => {
     };
     rp(options).then(function(data) {
       let json = JSON.parse(data);
-      textt = json.data.translations[0].translatedText;
+      let textt = json.data.translations[0].translatedText;
       chat.say(`${textt}`);
     });
     //

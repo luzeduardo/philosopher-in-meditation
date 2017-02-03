@@ -18,7 +18,6 @@ var gKey = process.env.GCLOUD_KEY;
 
 bot.on('message', (payload, chat) => {
   const text = payload.message.text;
-  chat.say(`Echo: ${text}`);
   var textt = '';
 
   try {
@@ -32,11 +31,10 @@ bot.on('message', (payload, chat) => {
             key:gKey
         }
     };
-    // rp(options).then(data => chat.say(`Echo: ${data.translations.translatedText}`) );
     rp(options).then(function(data) {
       let json = JSON.parse(data);
-      console.log(json.data.translations[0].translatedText);
-      console.log(json.data.translations.translatedText);
+      let message = json.data.translations[0].translatedText;
+      chat.say(`Echo: ${message}`);
     });
 
   } catch(err) {
@@ -96,7 +94,10 @@ const getTranslate = (convo) => {
                 key:gKey
             }
         };
-        return rp(options).then(data => console.log(data));
+        return rp(options).then(function(data) {
+          let json = JSON.parse(data);
+          return json.data.translations[0].translatedText;
+        });
       } catch(err) {
           console.log(err);
           console.log('erro');

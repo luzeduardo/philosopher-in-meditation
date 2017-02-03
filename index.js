@@ -40,6 +40,8 @@ bot.on('message', (payload, chat) => {
       chat.say(`${textt}`);
     });
 
+
+    
     try {
       let options = {
           method: 'POST',

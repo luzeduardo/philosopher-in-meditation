@@ -67,6 +67,7 @@ bot.on('message', (payload, chat) => {
       console.log(err);
       console.log('erro');
   };
+});
 
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {

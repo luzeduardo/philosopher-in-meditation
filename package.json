@@ -18,7 +18,9 @@
   "homepage": "https://github.com/luzeduardo/philosopher-in-meditation#readme",
   "dependencies": {
     "bootbot": "^1.0.7",
-    "google-cloud": "^0.46.1"
+    "dotenv": "^4.0.0",
+    "google-cloud": "^0.46.1",
+    "request": "^2.79.0"
   },
   "devDependencies": {
     "lodash": "^4.17.4",

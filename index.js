@@ -1,5 +1,7 @@
 'use strict';
-import rp from 'request-promise';
+require('dotenv').config({ silent: process.env.NODE_ENV !== 'development' })
+
+var rp = require('request-promise');
 const BootBot = require('bootbot');
 const REPLY_SIM_NAO = [{title: 'Sim', payload: 'INICIO_SIM'},
   {title: 'Não', payload: 'INICIO_NAO'}];
@@ -13,16 +15,21 @@ const bot = new BootBot({
 var gProjectId = process.env.GCLOUD_PROJECT;
 var gKey = process.env.GCLOUD_KEY;
 
-let options = {
-    method: 'GET',
-    uri: 'https://www.googleapis.com/language/translate/v2',
-    qs: {
-        q: encodeURI('me sinto feliz'),
-        target='en',
-        key=gKey
-    }
-};
-rp(options).then(data => console.log(data));
+
+try {
+  let options = {
+      method: 'GET',
+      uri: 'https://www.googleapis.com/language/translate/v2',
+      qs: {
+          q: encodeURI('me sinto feliz'),
+          target:'en',
+          key:gKey
+      }
+  };
+  rp(options).then(data => console.log(data));
+} catch(err) {
+    console.log(err);
+}
 
 const erroGenerico = convo =>
     convo.getUserProfile().then((user) => {

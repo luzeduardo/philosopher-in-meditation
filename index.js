@@ -12,4 +12,4 @@ bot.on('message', (payload, chat) => {
   chat.say(`Echo: ${text}`);
 });
 
-bot.start(8080);
+bot.start(process.env.PORT);

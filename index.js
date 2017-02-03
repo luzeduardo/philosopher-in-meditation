@@ -104,29 +104,27 @@ const askMovie = (convo) => {
 const getTranslate = (convo) => {
     let message = convo.get('contextMessage');
     try {
-      try {
-        let options = {
-            method: 'GET',
-            uri: 'https://www.googleapis.com/language/translate/v2',
-            qs: {
-                q: encodeURI(message),
-                target:'en',
-                source:'pt',
-                key:gKey
-            }
-        };
-        return rp(options).then(function(data) {
-          let json = JSON.parse(data);
-          return json.data.translations[0].translatedText;
-        });
-      } catch(err) {
-          console.log(err);
-          console.log('erro');
-      }
+      let options = {
+          method: 'GET',
+          uri: 'https://www.googleapis.com/language/translate/v2',
+          qs: {
+              q: encodeURI(text),
+              target:'en',
+              source:'pt',
+              key:gKey
+          }
+      };
+      rp(options).then(function(data) {
+        let json = JSON.parse(data);
+        console.log(json);
+        let textt = json.data.translations[0].translatedText;
+        chat.say(`${textt}`);
+      });
     } catch(err) {
-      console.log(err);
-        return erroGenerico(convo);
+        console.log(err);
+        console.log('erro');
     }
+    });
 };
 
 const verificaTentativas = (convo) => {
@@ -179,5 +177,7 @@ bot.setPersistentMenu([
         payload: 'PAYLOAD_NEW_MOVIE'
     }
 ]);
+
+setGetStartedButton
 
 bot.start(process.env.PORT);

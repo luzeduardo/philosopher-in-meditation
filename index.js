@@ -113,7 +113,7 @@ const getTranslate = (convo) => {
           method: 'GET',
           uri: 'https://www.googleapis.com/language/translate/v2',
           qs: {
-              q: encodeURI(text),
+              q: encodeURI(message),
               target:'en',
               source:'pt',
               key:gKey

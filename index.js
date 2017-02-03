@@ -18,6 +18,8 @@ var gKey = process.env.GCLOUD_KEY;
 
 bot.on('message', (payload, chat) => {
   const text = payload.message.text;
+  chat.say(`Echo: ${text}`);
+
   try {
     let options = {
         method: 'GET',
@@ -50,7 +52,7 @@ const askMovie = (convo) => {
             convo.end();
             chat.getUserProfile().then((user) => {
                 chat.say({
-                    text: `Olá, ${user.first_name}! tudo bem? Já te indicou um filme, ok?`,
+                    text: `Olá, ${user.first_name}! tudo bem? Já te indico um filme, ok?`,
                     quickReplies: REPLY_SIM_NAO
                 });
             });
@@ -124,7 +126,7 @@ const verificaTentativas = (convo) => {
 bot.on('postback:PAYLOAD_NEW_MOVIE', (payload, chat) => {
   chat.getUserProfile().then((user) => {
       chat.say({
-          text: `Olá, ${user.first_name}! tudo bem? Já te indicou um filme, ok?`,
+          text: `Olá, ${user.first_name}! tudo bem? Já te indico um filme, ok?`,
           quickReplies: REPLY_SIM_NAO
       });
   });
@@ -145,7 +147,7 @@ bot.on('quick_reply:INICIO_NAO', (payload, chat) => {
 bot.setPersistentMenu([
     {
         type: 'postback',
-        title: 'Quero um indicação de filme',
+        title: 'Quero uma indicação de filme',
         payload: 'PAYLOAD_NEW_MOVIE'
     }
 ]);

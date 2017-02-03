@@ -57,7 +57,7 @@ const askMovie = (convo) => {
 const getTranslate = (convo) => {
     let message = convo.get('contextMessage');
     try {
-      translateClient.translate(message, 'en', function(err, translation) {
+      return translateClient.translate(message, 'en', function(err, translation) {
         if (!err) {
           console.log(translation);
           return translation
@@ -66,6 +66,7 @@ const getTranslate = (convo) => {
         }
       });
     } catch(err) {
+      console.log(err);
         return erroGenerico(convo);
     }
 };

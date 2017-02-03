@@ -72,14 +72,21 @@ const askMovie = (convo) => {
 const getTranslate = (convo) => {
     let message = convo.get('contextMessage');
     try {
-      return translateClient.translate(message, 'en', function(err, translation) {
-        if (!err) {
-          console.log(translation);
-          return translation
-        } else {
-          return erroGenerico(convo);
-        }
-      });
+      try {
+        let options = {
+            method: 'GET',
+            uri: 'https://www.googleapis.com/language/translate/v2',
+            qs: {
+                q: encodeURI('me sinto feliz'),
+                target:'en',
+                key:gKey
+            }
+        };
+        return rp(options).then(data => console.log(data));
+      } catch(err) {
+          console.log(err);
+          console.log('erro');
+      }
     } catch(err) {
       console.log(err);
         return erroGenerico(convo);

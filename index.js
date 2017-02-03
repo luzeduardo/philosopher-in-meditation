@@ -19,6 +19,7 @@ var gKey = process.env.GCLOUD_KEY;
 bot.on('message', (payload, chat) => {
   const text = payload.message.text;
   var txtmsg = '';
+  console.log(text);
 
   try {
     let options = {
@@ -33,6 +34,7 @@ bot.on('message', (payload, chat) => {
     };
     rp(options).then(function(data) {
       let json = JSON.parse(data);
+      console.log(json);
       let textt = json.data.translations[0].translatedText;
       txtmsg = textt;
       chat.say(`${textt}`);

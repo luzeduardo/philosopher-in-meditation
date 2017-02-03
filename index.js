@@ -35,12 +35,17 @@ bot.on('message', (payload, chat) => {
       };
       rp(options).then(function(data) {
         let json = JSON.parse(data);
-        console.log(json);
         let textt = json.data.translations[0].translatedText;
         txtmsg = textt;
         var r1 = sentiment(textt);
-        console.log(r1);
-        chat.say(`${textt}`);
+        if(r1.score < 0){
+            chat.say(`Você está num dia um pocuo negativo, certo?`);
+        } else if(r1.score > 0){
+            chat.say(`Você está num dia positivo, certo?`);
+        } else {
+          chat.say(`Você está num dia normal, certo?`);
+        }
+        // chat.say(`${textt}`);
       });
   } catch(err) {
       console.log(err);
